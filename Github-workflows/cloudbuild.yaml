@@ -19,10 +19,10 @@ steps:
       --format json \
       --output trivy-report.json .
 
-    SCAN_STATUS=$?
-    echo $SCAN_STATUS > exit_status.txt
+    SCAN_STATUS=$$?
+    echo $$SCAN_STATUS > exit_status.txt
 
-    if [ "$SCAN_STATUS" -ne 0 ]; then
+    if [ "$$SCAN_STATUS" -ne 0 ]; then
       echo "🛑 HIGH or CRITICAL issues found. Build will stop after report upload."
     else
       echo "✅ No HIGH/CRITICAL issues found. Proceeding to build."
@@ -97,7 +97,7 @@ steps:
     terraform apply -input=false -auto-approve tfplan
 
 substitutions:
-  _TRIVY_REPORT_BUCKET: "project-2-503411"
+  _TRIVY_REPORT_BUCKET: "project-repo-498812-trivy-bucket"
   _TF_DIR: "terraform"          # path to your Terraform root module in the repo
 
 options:
