@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "Project 2-terraform-state" # Change this to your unique bucket name for Project 2
+    bucket = "project-2-503411-terraform-state" # Change this to your unique bucket name for Project 2
     prefix = "terraform/state"
   }
 } 
