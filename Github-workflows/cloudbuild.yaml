@@ -98,9 +98,9 @@ steps:
 
 substitutions:
   _TRIVY_REPORT_BUCKET: "project-repo-498812-rawdata"
-  _TF_DIR: "infra"          # path to your Terraform root module in the repo
+  _TF_DIR: "terraform"          # path to your Terraform root module in the repo
 
 options:
   logging: CLOUD_LOGGING_ONLY
 
-timeout: 1200s   # bumped up from 120s — scan + plan + apply need more roomadd .
+timeout: 1200s   # bumped up from 120s — scan + plan + apply need more roomadd . 
