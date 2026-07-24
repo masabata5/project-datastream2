@@ -51,7 +51,7 @@ steps:
   - '-c'
   - |
     EXIT_STATUS=$(cat exit_status.txt)
-    if [ "$EXIT_STATUS" -ne 0 ]; then
+    if [ "$$EXIT_STATUS" -ne 0 ]; then
       echo "🛑 SECURITY GATE FAILED — HIGH/CRITICAL issues found."
       echo "Report: gs://${_TRIVY_REPORT_BUCKET}/$BUILD_ID/trivy-report.json"
       echo "Terraform build steps will NOT run."
