@@ -115,7 +115,7 @@ steps:
 substitutions:
   _TRIVY_REPORT_BUCKET: "project-repo-498812-trivy-bucket"
   _TF_DIR: "terraform"          # path to your Terraform root module in the repo
-  _TF_STATE_BUCKET: "project-2-503411-tf-state-20260727"
+  _TF_STATE_BUCKET: "project-2-503411-tf-state-20260727-01"
 
 options:
   logging: CLOUD_LOGGING_ONLY
