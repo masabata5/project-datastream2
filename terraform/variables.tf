@@ -14,3 +14,9 @@ variable "zone" {
   description = "The target GCP zone for the VM"
   default     = "us-central1-a"
 }
+
+variable "trivy_report_bucket_name" {
+  type        = string
+  description = "The Cloud Storage bucket used by Cloud Build for Trivy reports"
+  default     = "project-repo-498812-trivy-bucket"
+}
