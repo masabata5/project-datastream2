@@ -61,7 +61,23 @@ steps:
     fi
 
 # ─────────────────────────────────────────────
-# 4. Terraform Init
+# 4. Create Terraform backend bucket if needed
+# ─────────────────────────────────────────────
+- name: 'gcr.io/cloud-builders/gsutil'
+  id: 'bootstrap-tf-backend'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    if gsutil ls "gs://${_TF_STATE_BUCKET}" >/dev/null 2>&1; then
+      echo "Terraform state bucket gs://${_TF_STATE_BUCKET} already exists."
+    else
+      echo "Creating Terraform state bucket gs://${_TF_STATE_BUCKET}..."
+      gsutil mb -p ${PROJECT_ID} "gs://${_TF_STATE_BUCKET}"
+    fi
+
+# ─────────────────────────────────────────────
+# 5. Terraform Init
 # ─────────────────────────────────────────────
 - name: 'hashicorp/terraform:1.9'
   id: 'tf-init'
@@ -73,7 +89,7 @@ steps:
     terraform init -input=false
 
 # ─────────────────────────────────────────────
-# 5. Terraform Plan (saved to a file so apply uses exactly what was planned)
+# 6. Terraform Plan (saved to a file so apply uses exactly what was planned)
 # ─────────────────────────────────────────────
 - name: 'hashicorp/terraform:1.9'
   id: 'tf-plan'
@@ -85,7 +101,7 @@ steps:
     terraform plan -input=false -out=tfplan
 
 # ─────────────────────────────────────────────
-# 6. Terraform Apply (only reached if steps 1–5 all succeeded)
+# 7. Terraform Apply (only reached if steps 1–6 all succeeded)
 # ─────────────────────────────────────────────
 - name: 'hashicorp/terraform:1.9'
   id: 'tf-apply'
@@ -99,6 +115,7 @@ steps:
 substitutions:
   _TRIVY_REPORT_BUCKET: "project-repo-498812-trivy-bucket"
   _TF_DIR: "terraform"          # path to your Terraform root module in the repo
+  _TF_STATE_BUCKET: "project-2-503411-terraform-state"
 
 options:
   logging: CLOUD_LOGGING_ONLY
