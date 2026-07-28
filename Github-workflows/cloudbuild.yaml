@@ -98,6 +98,7 @@ steps:
   - '-c'
   - |
     cd ${_TF_DIR}
+    terraform import -input=false google_compute_network.vpc_network "projects/${PROJECT_ID}/global/networks/datastream-vpc" || true
     terraform plan -input=false -out=tfplan
 
 # ─────────────────────────────────────────────
