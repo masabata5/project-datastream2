@@ -1,0 +1,49 @@
+name: Pre-deployment Security Scan & GCP Deploy
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+permissions:
+  contents: read
+  id-token: write # Required for keyless OIDC auth
+
+jobs:
+  trivy-scan:
+    name: Run Pre-deployment Trivy Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Scan IaC Files
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          exit-code: '1' # Prevents deployment if critical issues are found
+          severity: 'HIGH,CRITICAL'
+
+  deploy:
+    name: Deploy to GCP
+    needs: trivy-scan
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Test GCP Connection
+        run: gcloud info
