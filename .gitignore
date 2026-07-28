@@ -216,3 +216,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Terraform plans
+*.tfplan
+
+# Ignore all Terraform temporary build folders and state
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
