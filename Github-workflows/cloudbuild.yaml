@@ -73,7 +73,7 @@ steps:
       echo "Terraform state bucket gs://${_TF_STATE_BUCKET} already exists."
     else
       echo "Creating Terraform state bucket gs://${_TF_STATE_BUCKET}..."
-      gsutil mb -p ${PROJECT_ID} "gs://${_TF_STATE_BUCKET}"
+      gsutil mb -p ${PROJECT_ID} -l us-east1 "gs://${_TF_STATE_BUCKET}"
     fi
 
 # ─────────────────────────────────────────────
