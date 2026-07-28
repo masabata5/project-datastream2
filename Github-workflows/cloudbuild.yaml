@@ -98,6 +98,7 @@ steps:
   - '-c'
   - |
     cd ${_TF_DIR}
+    terraform import -input=false google_service_account.datastream_sa "projects/${PROJECT_ID}/serviceAccounts/datastream-sa@${PROJECT_ID}.iam.gserviceaccount.com" || true
     terraform plan -input=false -out=tfplan
 
 # ─────────────────────────────────────────────
