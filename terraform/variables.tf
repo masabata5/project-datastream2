@@ -6,13 +6,13 @@ variable "project_id" {
 variable "region" {
   type        = string
   description = "The target GCP region for resources"
-  default     = "us-east1"
+  default     = "us-central1"
 }
 
 variable "zone" {
   type        = string
   description = "The target GCP zone for the VM"
-  default     = "us-east1-b"
+  default     = "us-central1-a"
 }
 
 variable "trivy_report_bucket_name" {
